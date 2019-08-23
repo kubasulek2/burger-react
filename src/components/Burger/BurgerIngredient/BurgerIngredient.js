@@ -5,12 +5,12 @@ import styles from './BurgerIngredient.module.css';
 
 const burgerIngredient = (props) => {
 	
-	let ingredient = props.type ? <div className={styles[props.type]}></div> : null;
+	let ingredient = props.className ? <div className={styles[props.className]}></div> : null;
 
-	if (props.type === 'BreadTop')
+	if (props.className === 'BreadTop')
 	{
 		ingredient = (
-			<div className={styles[props.type]}>
+			<div className={styles[props.className]}>
 				<div className={styles.Seeds1}></div>
 				<div className={styles.Seeds2}></div>
 			</div>
@@ -23,7 +23,7 @@ const burgerIngredient = (props) => {
 	return ingredient;
 };
 burgerIngredient.propTypes = {
-	type: PropTypes.string.isRequired
+	className: PropTypes.string.isRequired
 };
 
 export default burgerIngredient;

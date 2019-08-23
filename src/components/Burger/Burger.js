@@ -12,17 +12,17 @@ const burger = (props) => {
 
 	let ingredients = Object.keys(props.ingredients)
 		.map((key) => {
-			let type = key.charAt(0).toUpperCase() + key.slice(1);
+			let className = key.charAt(0).toUpperCase() + key.slice(1);
 
 			if (key.includes('-')) {
-				type = type.replace(/-/g, '');
-				type = type.split('');
-				type[key.indexOf('-')] = type[key.indexOf('-')].toUpperCase();
-				type = type.join('');
+				className = className.replace(/-/g, '');
+				className = className.split('');
+				className[key.indexOf('-')] = className[key.indexOf('-')].toUpperCase();
+				className = className.join('');
 			}
-
+				
 			return [...Array(props.ingredients[key])]
-				.map((_, i) => <BurgerIngredient key={key + i} type={type} />);
+				.map((_, i) => <BurgerIngredient key={key + i} className={className} />);
 
 		})
 		.reduce((prev,next) => prev.concat(next));
@@ -36,9 +36,9 @@ const burger = (props) => {
 
 	return (
 		<div className={styles.Burger}>
-			<BurgerIngredient type='BreadTop'/>
+			<BurgerIngredient className='BreadTop'/>
 			{ingredients}
-			<BurgerIngredient type='BreadBottom' />
+			<BurgerIngredient className='BreadBottom' />
 
 		</div>
 	);

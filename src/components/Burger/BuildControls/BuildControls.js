@@ -4,18 +4,24 @@ import BuildControl from './BuildControl/BuildControl';
 
 const buildControls = (props) => {
 	
-	const controls = Object.keys(props.ingredients).map((el) => {
-		return{
-			type: el.charAt(0).toUpperCase() + el.slice(1)
-		};
-	});
+	const controls = [
+		{ label: 'Cheese', type: 'cheese'},
+		{ label: 'Salad', type: 'salad'},
+		{ label: 'Meat', type: 'meat'},
+		{ label: 'Bacon', type: 'bacon'}
+	]; 
+	
 	
 		
 	
 	return (
 		<div className={styles.BuildControls}>
 			{controls.map(ctrl => (
-				<BuildControl key={ctrl.type} label={ctrl.type}/>
+				<BuildControl
+					added={()=>props.ingredientAdded(ctrl.type)} 
+					removed={()=>props.ingredientRemoved(ctrl.type)} 
+					key={ctrl.label} 
+					label={ctrl.label}/>
 			))}
 		</div>
 	);

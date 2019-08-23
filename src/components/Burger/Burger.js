@@ -28,12 +28,10 @@ const burger = (props) => {
 		.reduce((prev,next) => prev.concat(next));
 
 	if(!ingredients.length){
-		ingredients = <p>Please Start Adding Ingredients</p>
+		ingredients = <p>Please Start Adding Ingredients</p>;
 	}
 		
 
-	console.log(ingredients);
-	
 
 
 	return (

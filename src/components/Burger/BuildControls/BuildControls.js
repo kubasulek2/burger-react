@@ -11,8 +11,6 @@ const buildControls = (props) => {
 		{ label: 'Bacon', type: 'bacon' }
 	];
 
-
-	console.log(props.purchasable);
 	
 
 	return (

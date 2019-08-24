@@ -9,3 +9,30 @@
 	padding: 1rem;
 
 }
+.BuildControls p{
+	text-align: center;
+	font-size: 1.2rem;
+	font-weight: bold;
+}
+
+.OrderButton{
+	font-size: 1.5rem;
+	padding: 1rem;
+	box-shadow: none;
+	outline: none;
+	color: white;
+	margin: 1rem auto;
+	background: seagreen;
+	border: none;
+	display: block;
+	cursor: pointer;
+
+}
+.OrderButton:hover{
+	background: rgb(34, 112, 68)
+}
+
+.OrderButton:disabled{
+	cursor: not-allowed;
+	background: #666;
+}

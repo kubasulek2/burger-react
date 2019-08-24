@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import Aux from '../../hoc/Aux';
 import Burger from '../../components/Burger/Burger';
-import BuildControls from '../../components/Burger/BuildControls/BuildControls';
+import BuildControls from '../../components/BuildControls/BuildControls';
 
 const INGREDIENT_PRICES = {
 	salad: 0.5,
@@ -42,6 +42,7 @@ class BurgerBuilder extends Component {
 
 	removeIngredientHandler = (type) => {
 		const oldCount = this.state.ingredients[type];
+		if (oldCount <= 0) return;
 		const updateCount = oldCount  -1;
 		const updatedIngredients = { ...this.state.ingredients };
 
@@ -55,10 +56,21 @@ class BurgerBuilder extends Component {
 
 
 	render() {
+
+		const disableInfo = {...this.state.ingredients};
+		for (let key in disableInfo) {
+			if (Object.hasOwnProperty.call(disableInfo,key)) {
+				disableInfo[key] = disableInfo[key] <=0;
+				
+			}
+		}
+		
+		
 		return (
 			<Aux>
 				<Burger ingredients={this.state.ingredients}/>
-				<BuildControls 
+				<BuildControls
+					isDisabled={disableInfo} 
 					ingredientAdded={this.addIngredientHandler}
 					ingredientRemoved={this.removeIngredientHandler}
 					ingredients={this.state.ingredients}/>

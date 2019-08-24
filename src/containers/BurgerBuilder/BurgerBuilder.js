@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
 import Aux from '../../hoc/Aux';
 import Burger from '../../components/Burger/Burger';
-import BuildControls from '../../components/BuildControls/BuildControls';
+import BuildControls from '../../components/Burger/BuildControls/BuildControls';
+import Modal from '../../components/UI/Modal/Modal';
+import OrderSummary from '../../components/Burger/OrderSummary/OrderSummary';
 
 const INGREDIENT_PRICES = {
 	salad: 0.5,
@@ -20,7 +22,8 @@ class BurgerBuilder extends Component {
 			meat: 0
 		},
 		totalPrice: 4,
-		purchasable: false
+		purchasable: false,
+		purchase: false,
 
 	};
 
@@ -64,9 +67,14 @@ class BurgerBuilder extends Component {
 		this.updatePurchaseState(updatedIngredients);
 	}
 
+	purchaseHandler = () => {
+		this.setState({purchase: true});
+	}
+
 
 	render() {
 
+		/* eslint-disable no-unused-vars */
 		const disableInfo = { ...this.state.ingredients };
 		for (let key in disableInfo) {
 			if (Object.hasOwnProperty.call(disableInfo, key)) {
@@ -74,10 +82,13 @@ class BurgerBuilder extends Component {
 
 			}
 		}
-
+		/* eslint-enable no-unused-vars */
 
 		return (
 			<Aux>
+				<Modal show={this.state.purchase}>
+					<OrderSummary ingredients={this.state.ingredients} />
+				</Modal>
 				<Burger ingredients={this.state.ingredients} />
 				<BuildControls
 					purchasable={this.state.purchasable}
@@ -85,7 +96,8 @@ class BurgerBuilder extends Component {
 					isDisabled={disableInfo}
 					ingredientAdded={this.addIngredientHandler}
 					ingredientRemoved={this.removeIngredientHandler}
-					ingredients={this.state.ingredients} />
+					ingredients={this.state.ingredients} 
+					purchase={this.purchaseHandler}/>
 			</Aux>
 		);
 	}

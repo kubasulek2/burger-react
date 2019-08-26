@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
 
-import Aux from '../../hoc/Aux';
+import Aux from '../../hoc/Aux/Aux';
 import Burger from '../../components/Burger/Burger';
 import BuildControls from '../../components/Burger/BuildControls/BuildControls';
 import Modal from '../../components/UI/Modal/Modal';
 import OrderSummary from '../../components/Burger/OrderSummary/OrderSummary';
 import Spinner from '../../components/UI/Spinner/Spinner';
+import withErrorHandler from '../../hoc/withErrorHandler/withErrorHandler';
 import axios from '../../axios-order';
 
 const INGREDIENT_PRICES = {
@@ -81,7 +82,7 @@ class BurgerBuilder extends Component {
 
 	purchaseContinue = () => {
 		/* eslint-disable no-unused-vars */
-		this.setState({loading: true});
+		this.setState({ loading: true });
 
 		const order = {
 			ingredients: this.state.ingredients,
@@ -99,7 +100,7 @@ class BurgerBuilder extends Component {
 
 		axios.post('/orders.json', order)
 			.then(res => {
-				this.setState({ loading: false, purchase: false});
+				this.setState({ loading: false, purchase: false });
 			})
 			.catch(err => {
 				this.setState({ loading: false, purchase: false });
@@ -108,7 +109,7 @@ class BurgerBuilder extends Component {
 
 	render() {
 
-		
+
 		const disableInfo = { ...this.state.ingredients };
 		for (let key in disableInfo) {
 			if (Object.hasOwnProperty.call(disableInfo, key)) {
@@ -152,4 +153,4 @@ class BurgerBuilder extends Component {
 	}
 }
 
-export default BurgerBuilder;
+export default withErrorHandler(BurgerBuilder, axios);

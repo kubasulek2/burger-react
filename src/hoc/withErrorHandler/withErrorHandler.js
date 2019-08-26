@@ -4,6 +4,7 @@ import Modal from '../../components/UI/Modal/Modal';
 import Aux from '../Aux/Aux';
 
 /* eslint-disable react/display-name */
+/* routing */
 
 const withErrorHandler = (WrappedComponent, axios) => {
 

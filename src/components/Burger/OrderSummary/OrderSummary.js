@@ -1,4 +1,4 @@
-import React from 'react';
+import React  from 'react';
 import Aux from '../../../hoc/Aux';
 import Button from '../../UI/Button/Button';
 import PropTypes from 'prop-types';

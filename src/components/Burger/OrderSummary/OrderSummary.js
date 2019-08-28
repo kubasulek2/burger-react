@@ -1,4 +1,5 @@
 import React  from 'react';
+
 import Aux from '../../../hoc/Aux/Aux';
 import Button from '../../UI/Button/Button';
 import PropTypes from 'prop-types';
@@ -15,6 +16,8 @@ const orderSummary = (props) => {
 					: null
 			);
 		});
+		
+
 	return (
 		<Aux>
 			<h3>Your Order</h3>

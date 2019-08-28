@@ -13,13 +13,17 @@ const summary = (props) => {
 				<Burger ingredients={props.ingredients}/>
 			</div>
 			<Button 
-				type='Success'
-				clicked
-			>Confirm</Button>
-			<Button 
 				type='Danger'
-				clicked
-			>Cancel</Button>
+				clicked={props.cancel}
+			>
+				Cancel
+			</Button>
+			<Button
+				type='Success'
+				clicked={props.continue}
+			>
+				Confirm
+			</Button>
 		</div>
 	);
 };

@@ -29,13 +29,14 @@ class BurgerBuilder extends Component {
 
 	};
 
+
 	componentDidMount() {
 		axios.get('/ingredients.json')
 			.then(res => {
 				this.setState({ ingredients: res.data });
 			})
 			.catch(error => {
-				this.setState({error: true});
+				this.setState({ error: true });
 				return error;
 			});
 	}
@@ -114,15 +115,24 @@ class BurgerBuilder extends Component {
 		// 	.catch(err => {
 		// 		this.setState({ loading: false, purchase: false });
 		// 	});
-		this.props.history.push('/checkout');
+		const ingredients = { ...this.state.ingredients };
+		let query = '?' + Object.keys(ingredients)
+			.map(key => `${ encodeURIComponent(key)}=${encodeURI(ingredients[key])}`)
+			.join('&');
+		
+
+		this.props.history.push({
+			pathname: '/checkout',
+			search: query
+		});
 	}
 
 	render() {
 		let burger = !this.state.error ? <Spinner /> : <p>Error Occurred...</p>;
 		let disableInfo = null;
-		let orderSummary= null;
+		let orderSummary = null;
 		if (this.state.ingredients) {
-			
+
 			disableInfo = { ...this.state.ingredients };
 			for (let key in disableInfo) {
 				if (Object.hasOwnProperty.call(disableInfo, key)) {

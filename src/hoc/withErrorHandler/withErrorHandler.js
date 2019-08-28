@@ -32,7 +32,7 @@ const withErrorHandler = (WrappedComponent, axios) => {
 		
 
 		errorConfirmedHandler = () => {
-			this.setState({ error: null })
+			this.setState({ error: null });
 		}
 		render() {
 			return (

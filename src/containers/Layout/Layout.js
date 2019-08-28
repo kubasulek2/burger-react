@@ -11,7 +11,7 @@ class Layout extends Component {
 	}
 	sideDrawerHandler = () => {
 		this.setState(prevState => {
-			return { showSideDrawer: !prevState.showSideDrawer}
+			return { showSideDrawer: !prevState.showSideDrawer};
 		});
 	}
 
@@ -20,6 +20,7 @@ class Layout extends Component {
 	}
 
 	render() {
+		console.log();
 		return (
 			<Aux>
 				<Toolbar sideDrawerHandle={this.sideDrawerHandler}/>
@@ -33,6 +34,6 @@ class Layout extends Component {
 			</Aux>
 		);
 	}
-};
+}
 
 export default Layout;

@@ -73,7 +73,7 @@ export class ContactForm extends Component {
 					required: false,
 
 				},
-				valid: false,
+				valid: true,
 			},
 			deliveryMethod: {
 				elementType: 'select',
@@ -87,7 +87,7 @@ export class ContactForm extends Component {
 					required: true,
 
 				},
-				valid: false,
+				valid: true,
 			}
 		},
 		loading: false
@@ -142,7 +142,7 @@ export class ContactForm extends Component {
 			isValid = value.trim() !== '' && isValid;
 		}
 
-		if (rules.minLenght){
+		if (rules.minLength){
 			isValid = value >= rules.minLength && isValid;
 		}
 
@@ -172,6 +172,7 @@ export class ContactForm extends Component {
 						elementType={input.config.elementType}
 						elementConfig={input.config.elementConfig}
 						value={input.config.value}
+						invalid={!input.valid}
 						changed={(event) => this.inputChangeHandler(event, input.id)}
 					/>
 				))}

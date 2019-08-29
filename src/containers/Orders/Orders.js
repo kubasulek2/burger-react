@@ -12,7 +12,7 @@ export class Orders extends Component {
 		error: false
 	}
 	componentDidMount() {
-		axios.get('/orders')
+		axios.get('/orders.json')
 			.then(res => {
 				let ordersArr = [];
 				/* eslint-disable no-unused-vars */
@@ -26,11 +26,6 @@ export class Orders extends Component {
 					}
 				}
 				/* eslint-enable no-unused-vars */
-
-				console.log(res.data, ordersArr);
-				ordersArr[0].customer.address.street = 1;
-				console.log(res.data, ordersArr);
-
 
 				this.setState({
 					loading: false,
@@ -71,4 +66,4 @@ export class Orders extends Component {
 	}
 }
 
-export default withError(Orders, axios);
+export default withError(Orders,axios);

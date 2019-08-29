@@ -7,13 +7,6 @@
 	padding: 1rem;
 	box-sizing: border-box;
 }
-
-.ContactForm input{
-	display: block;
-	margin: 1rem auto;
-}
-
-
 @media (min-width:600px){
 	.ContactForm{
 		width: 500px;

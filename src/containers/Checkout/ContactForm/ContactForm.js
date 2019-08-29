@@ -19,9 +19,10 @@ export class ContactForm extends Component {
 				value: '',
 				validation: {
 					required: true,
-					minLength: 2					
+					minLength: 2
 				},
 				valid: false,
+				touched: false
 			},
 			email: {
 				elementType: 'input',
@@ -35,6 +36,7 @@ export class ContactForm extends Component {
 
 				},
 				valid: false,
+				touched: false
 			},
 			street: {
 				elementType: 'input',
@@ -48,6 +50,7 @@ export class ContactForm extends Component {
 					minLength: 3
 				},
 				valid: false,
+				touched: false
 			},
 			zipCode: {
 				elementType: 'input',
@@ -61,6 +64,7 @@ export class ContactForm extends Component {
 
 				},
 				valid: false,
+				touched: false
 			},
 			country: {
 				elementType: 'input',
@@ -74,6 +78,7 @@ export class ContactForm extends Component {
 
 				},
 				valid: true,
+				touched: false
 			},
 			deliveryMethod: {
 				elementType: 'select',
@@ -83,14 +88,17 @@ export class ContactForm extends Component {
 						{ value: 'cheapest', displayValue: 'Cheapest' }
 					]
 				},
+				value: 'fastest',
 				validation: {
 					required: true,
 
 				},
 				valid: true,
+				touched: false
 			}
 		},
-		loading: false
+		loading: false,
+		isFromValid: false
 	}
 	orderHandler = (event) => {
 
@@ -121,17 +129,25 @@ export class ContactForm extends Component {
 	}
 
 	inputChangeHandler = (event, inputIdentifier) => {
-		
+
 		const updatedFormData = { ...this.state.formData };
 		const updatedFormDataElement = { ...updatedFormData[inputIdentifier] }; // second level copy
-		
+
 		updatedFormDataElement.value = event.target.value;
+		updatedFormDataElement.touched = true;
 		updatedFormDataElement.valid = this.checkValidity(updatedFormDataElement.value, updatedFormDataElement.validation);
 		updatedFormData[inputIdentifier] = updatedFormDataElement;
-		
-		console.log(updatedFormDataElement);
+
+		let formIsValid = true;
+
+		for (const input in updatedFormData) {
+			formIsValid = updatedFormData[input].valid && formIsValid;
+		}
+
+
 		this.setState({
-			formData: updatedFormData
+			formData: updatedFormData,
+			isFromValid: formIsValid
 		});
 
 	}
@@ -142,8 +158,8 @@ export class ContactForm extends Component {
 			isValid = value.trim() !== '' && isValid;
 		}
 
-		if (rules.minLength){
-			isValid = value >= rules.minLength && isValid;
+		if (rules.minLength) {
+			isValid = value.length >= rules.minLength && isValid;
 		}
 
 
@@ -172,11 +188,18 @@ export class ContactForm extends Component {
 						elementType={input.config.elementType}
 						elementConfig={input.config.elementConfig}
 						value={input.config.value}
-						invalid={!input.valid}
+						invalid={!input.config.valid}
+						touched={input.config.touched}
 						changed={(event) => this.inputChangeHandler(event, input.id)}
 					/>
 				))}
-				<Button type='Success' clicked={this.orderHandler}>ORDER</Button>
+				<Button
+					disabled={!this.state.isFromValid}
+					type='Success' 
+					clicked={this.orderHandler}
+				>
+					ORDER
+				</Button>
 			</form>
 		);
 

@@ -2,11 +2,19 @@ import React from 'react';
 
 import styles from './Order.module.css';
 
-const order = () => {
+const order = (props) => {
+	
+	const ingredients = Object.keys(props.details.ingredients)
+		.map((ing, i) => {
+			return props.details.ingredients[ing] === 0 ? null : <p key={i}>{ing} ({props.details.ingredients[ing]})</p>;
+		});
+	console.log();
+
 	return (
 		<div className={styles.Order}>
-			<p>Ingredients: Salad (1)</p>
-			<p>Price: <strong>4 $</strong></p>
+			<h2>Ingredients</h2>
+			{ingredients}
+			<p>Price: <strong>{props.details.price} $</strong></p>
 		</div>
 	);
 };

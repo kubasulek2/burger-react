@@ -1,14 +1,17 @@
 import React, { Component } from 'react';
+import { Route } from 'react-router-dom';
+
 import Summary from '../../components/Order/Summary/Summary';
+import ContactForm from './ContactForm/ContactForm';
 
 export class Checkout extends Component {
 
-	state={
+	state = {
 		ingredients: {
-			salad: 0,
+			bacon: 0,
 			cheese: 0,
 			meat: 0,
-			bacon: 0
+			salad: 0
 		}
 	}
 
@@ -21,11 +24,11 @@ export class Checkout extends Component {
 			ingredients[param[0]] = +param[1];  // to make string number
 		}
 		/* eslint-enable no-unused-vars*/
-
-		this.state = {
-			ingredients: ingredients
-		};
-
+		if (this.props.location.search) {
+			this.setState({
+				ingredients: ingredients
+			});
+		}
 	}
 
 
@@ -34,7 +37,7 @@ export class Checkout extends Component {
 	}
 
 	checkoutProceedHandler = () => {
-		this.props.history.push(this.props.match.url + '/form');
+		this.props.history.push(this.props.match.url + '/contact-form');
 	}
 
 	render() {
@@ -46,6 +49,7 @@ export class Checkout extends Component {
 					cancel={this.checkoutCancelHandler}
 					continue={this.checkoutProceedHandler}
 				/>
+				<Route path={this.props.match.url + '/contact-form'} component={ContactForm} />
 			</div>
 		);
 	}

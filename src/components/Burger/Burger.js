@@ -12,6 +12,7 @@ const burger = (props) => {
 
 	let ingredients = Object.keys(props.ingredients)
 		.map((key) => {
+
 			let className = key.charAt(0).toUpperCase() + key.slice(1);
 
 			if (key.includes('-')) {
@@ -20,23 +21,23 @@ const burger = (props) => {
 				className[key.indexOf('-')] = className[key.indexOf('-')].toUpperCase();
 				className = className.join('');
 			}
-				
+
 			return [...Array(props.ingredients[key])]
 				.map((_, i) => <BurgerIngredient key={key + i} className={className} />);
 
 		})
-		.reduce((prev,next) => prev.concat(next));
-
-	if(!ingredients.length){
+		.reduce((prev, next) => prev.concat(next));
+	
+	if (!ingredients.length) {
 		ingredients = <p>Please Start Adding Ingredients</p>;
 	}
-		
+
 
 
 
 	return (
 		<div className={styles.Burger}>
-			<BurgerIngredient className='BreadTop'/>
+			<BurgerIngredient className='BreadTop' />
 			{ingredients}
 			<BurgerIngredient className='BreadBottom' />
 

@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 import { Route } from 'react-router-dom';
 
-import Layout from './Layout/Layout';
-import BurgerBuilder from '../containers/BurgerBuilder/BurgerBuilder';
-import Checkout from '../containers/Checkout/Checkout';
-import Orders from './Orders/Orders';
+import Layout from './containers/Layout/Layout';
+import BurgerBuilder from './containers/BurgerBuilder/BurgerBuilder';
+import Checkout from './containers/Checkout/Checkout';
+import Orders from './containers/Orders/Orders';
 
 import './App.css';
 

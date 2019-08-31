@@ -8,7 +8,7 @@ const order = (props) => {
 		.map((ing, i) => {
 			return props.details.ingredients[ing] === 0 ? null : <p key={i}>{ing} ({props.details.ingredients[ing]})</p>;
 		});
-	console.log();
+	console.log('aaa');
 
 	return (
 		<div className={styles.Order}>

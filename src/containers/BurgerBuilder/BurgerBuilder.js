@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import {connect} from 'react-redux';
+import { connect } from 'react-redux';
 
 import Aux from '../../hoc/Aux/Aux';
 import Burger from '../../components/Burger/Burger';
@@ -52,18 +52,9 @@ class BurgerBuilder extends Component {
 	}
 
 	purchaseContinue = () => {
-		/* eslint-disable no-unused-vars */
-		
-		const ingredients = { ...this.props.ings };
-		let query = '?' + Object.keys(ingredients)
-			.map(key => `${ encodeURIComponent(key)}=${encodeURI(ingredients[key])}`)
-			.join('&');
-		query = query + '&totalPrice=' + this.props.price.toFixed(2);
 
-		this.props.history.push({
-			pathname: '/checkout',
-			search: query
-		});
+
+		this.props.history.push('/checkout');
 	}
 
 	render() {
@@ -71,6 +62,8 @@ class BurgerBuilder extends Component {
 		let disableInfo = null;
 		let orderSummary = null;
 		if (this.props.ings) {
+
+			/* eslint-disable no-unused-vars */
 
 			disableInfo = { ...this.props.ings };
 			for (let key in disableInfo) {
@@ -132,7 +125,7 @@ const mapStateToProps = state => {
 };
 const mapDispatchToProps = dispatch => {
 	return {
-		onIngredientAdded: (ing)=> dispatch({
+		onIngredientAdded: (ing) => dispatch({
 			type: actionTypes.ADD_INGREDIENT,
 			ingredientName: ing
 		}),

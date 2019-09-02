@@ -2,21 +2,27 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { BrowserRouter } from 'react-router-dom';
 import { Provider } from 'react-redux';
-import { createStore, applyMiddleware, compose } from 'redux';
+import { createStore, applyMiddleware, compose, combineReducers } from 'redux';
 import thunk from 'redux-thunk';
 
 import './index.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
 import burgerReducer from './store/reducers/burgerBuilder';
+import orderReducer from './store/reducers/order';
 
 
 /* create compose function, either redux dev-tools compose or if dev-tools not present use compose from redux package */
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
+/* combine reducers: now state.burger.ingredients */
+const rootReducer = combineReducers({
+	burger: burgerReducer,
+	order: orderReducer
+});
 
 /* in that compose function you can call applyMiddleware with thunk package for async code */
-const store = createStore(burgerReducer, composeEnhancers(
+const store = createStore(rootReducer, composeEnhancers(
 	applyMiddleware(thunk)
 ));
 

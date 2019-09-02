@@ -1,11 +1,13 @@
 import React, { Component } from 'react';
-import {connect} from 'react-redux';
+import { connect } from 'react-redux';
 
 import Button from '../../../components/UI/Button/Button';
 import Spinner from '../../../components/UI/Spinner/Spinner';
 import Input from '../../../components/UI/Input/Input';
 
 import axios from '../../../axios-order';
+import withError from '../../../hoc/withErrorHandler/withErrorHandler';
+import * as action from '../../../store/actions/actionIndex';
 
 import styles from './ContactForm.module.css';
 
@@ -99,7 +101,6 @@ export class ContactForm extends Component {
 				touched: false
 			}
 		},
-		loading: false,
 		isFromValid: false
 	}
 	orderHandler = (event) => {
@@ -107,7 +108,7 @@ export class ContactForm extends Component {
 		event.preventDefault();
 		/* eslint-disable no-unused-vars */
 
-		this.setState({ loading: true });
+
 
 		let formData = {};
 		for (const key in this.state.formData) {
@@ -119,7 +120,7 @@ export class ContactForm extends Component {
 			formData: formData
 		};
 
-		
+		this.props.purchaseHandle(order);
 
 	}
 
@@ -190,7 +191,7 @@ export class ContactForm extends Component {
 				))}
 				<Button
 					disabled={!this.state.isFromValid}
-					type='Success' 
+					type='Success'
 					clicked={this.orderHandler}
 				>
 					ORDER
@@ -198,7 +199,7 @@ export class ContactForm extends Component {
 			</form>
 		);
 
-		if (this.state.loading) {
+		if (this.props.loading) {
 			form = <Spinner />;
 		}
 
@@ -213,10 +214,16 @@ export class ContactForm extends Component {
 
 const mapStateToProps = state => {
 	return {
-		ings: state.ingredients,
-		price: state.totalPrice,
-		order: state.order
+		ings: state.burger.ingredients,
+		price: state.burger.totalPrice,
+		loading: state.order.loading
 	};
 };
 
-export default connect(mapStateToProps)(ContactForm);
+const mapDispatchToProps = dispatch => {
+	return {
+		purchaseHandle: (orderData) => dispatch(action.handlePurchase(orderData))
+	};
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(withError(ContactForm, axios));

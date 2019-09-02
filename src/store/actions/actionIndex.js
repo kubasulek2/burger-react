@@ -7,5 +7,6 @@ export {
 
 export {
 	handlePurchase,
-	purchaseInit
+	purchaseInit,
+	fetchOrders
 } from './order';

@@ -33,7 +33,7 @@ export const purchaseFail = (error) => {
 
 export const handlePurchase = (orderData) => {
 	return dispatch => {
-		
+
 		dispatch(purchaseStart());
 
 		axios.post('/orders.json', orderData)
@@ -42,6 +42,48 @@ export const handlePurchase = (orderData) => {
 			})
 			.catch(err => {
 				dispatch(purchaseFail(err));
+			});
+	};
+};
+
+export const fetchOrderStart = () => {
+	return {
+		type: actionTypes.FETCH_ORDERS_START,
+	};
+};
+
+export const fetchOrderSuccess = (orders) => {
+	return {
+		type: actionTypes.FETCH_ORDERS_SUCCESS,
+		orders: orders
+	};
+};
+
+export const fetchOrderFail = (error) => {
+	return {
+		type: actionTypes.FETCH_ORDERS_FAIL,
+		error: error
+	};
+};
+
+export const fetchOrders = () => {
+	return dispatch => {
+		dispatch(fetchOrderStart());
+		axios.get('/orders.json')
+			.then(res => {
+				let ordersArr = [];
+				/* eslint-disable no-unused-vars */
+				for (const key in res.data) {
+					ordersArr.push({
+						...res.data[key],
+						id: key
+					});
+				}
+				/* eslint-enable no-unused-vars */
+				dispatch(fetchOrderSuccess(ordersArr));
+			})
+			.catch(err => {
+				dispatch(fetchOrderFail(err));
 			});
 	};
 };

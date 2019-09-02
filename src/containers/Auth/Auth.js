@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 
 import Input from '../../components/UI/Input/Input';
 import Button from '../../components/UI/Button/Button';
 
+import * as actions from '../../store/actions/actionIndex';
 import styles from './Auth.module.css';
 
 export class Auth extends Component {
@@ -38,7 +40,8 @@ export class Auth extends Component {
 				touched: false
 			}
 		},
-		isFromValid: false
+		isFromValid: false,
+		isSignUp: true
 	}
 
 	checkValidity = (value, rules) => {
@@ -71,7 +74,7 @@ export class Auth extends Component {
 		updatedControls[inputIdentifier] = updatedControlsElement;
 
 		let formIsValid = true;
-		
+
 		/* eslint-disable no-unused-vars */
 
 		for (const input in updatedControls) {
@@ -85,7 +88,24 @@ export class Auth extends Component {
 		});
 
 	}
+	submitHandler = (event) => {
+		event.preventDefault();
+		if (this.state.isSignUp) {
+			this.props.authenticate(this.state.controls.email.value, this.state.controls.password.value, true);
+		} else {
+			this.props.authenticate(this.state.controls.email.value, this.state.controls.password.value, false);
+		}
+	}
 
+	switchAuthHandler = (event) => {
+		event.preventDefault();
+
+		this.setState(prevState => {
+			return {
+				isSignUp: !prevState.isSignUp
+			};
+		});
+	}
 
 	render() {
 
@@ -113,10 +133,13 @@ export class Auth extends Component {
 
 		return (
 			<div>
-				<form  className={styles.Auth}>
+				<form className={styles.Auth} >
 					{form}
-					<Button type='Success' disabled={!this.state.isFromValid}>
-						Submit
+					<Button type='Success' disabled={!this.state.isFromValid} clicked={this.submitHandler}>
+						{this.state.isSignUp ? 'Sign Up' : 'Login In'}
+					</Button>
+					<Button type='Danger' clicked={this.switchAuthHandler} >
+						Switch to {this.state.isSignUp ? 'log in' : 'sign up'}
 					</Button>
 				</form>
 			</div>
@@ -124,4 +147,16 @@ export class Auth extends Component {
 	}
 }
 
-export default Auth;
+const mapStateToProps = state => {
+	return {
+		loading: state.order.loading
+	};
+};
+
+const mapDispatchToProps = dispatch => {
+	return {
+		authenticate: (email, password, isSignUp) => dispatch(actions.auth(email, password, isSignUp))
+	};
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Auth);

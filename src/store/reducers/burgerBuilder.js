@@ -20,6 +20,15 @@ const reducer = (state = initialState, action) => {
 	const newState = {...state};
 
 	switch (action.type) {
+		
+		case actionTypes.SET_INGREDIENTS:
+			newState.ingredients = action.ingredients;
+			break;
+
+		case actionTypes.FETCH_INGREDIENTS_FAILED:
+			newState.error = true;
+			break;	
+
 		case actionTypes.ADD_INGREDIENT:
 			newState.ingredients = {
 				...newState.ingredients,

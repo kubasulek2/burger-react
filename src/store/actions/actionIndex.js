@@ -5,4 +5,6 @@ export {
 	initIngredients
 }from './burgerBuilder.js';
 
-export {} from './order';
+export {
+	handlePurchase
+} from './order';

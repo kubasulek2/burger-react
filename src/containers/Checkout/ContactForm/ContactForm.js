@@ -3,8 +3,9 @@ import {connect} from 'react-redux';
 
 import Button from '../../../components/UI/Button/Button';
 import Spinner from '../../../components/UI/Spinner/Spinner';
-import axios from '../../../axios-order';
 import Input from '../../../components/UI/Input/Input';
+
+import axios from '../../../axios-order';
 
 import styles from './ContactForm.module.css';
 
@@ -118,14 +119,7 @@ export class ContactForm extends Component {
 			formData: formData
 		};
 
-		axios.post('/orders.json', order)
-			.then(res => {
-				this.setState({ loading: false });
-				this.props.history.push('/');
-			})
-			.catch(err => {
-				this.setState({ loading: false });
-			});
+		
 
 	}
 
@@ -220,7 +214,8 @@ export class ContactForm extends Component {
 const mapStateToProps = state => {
 	return {
 		ings: state.ingredients,
-		price: state.totalPrice
+		price: state.totalPrice,
+		order: state.order
 	};
 };
 

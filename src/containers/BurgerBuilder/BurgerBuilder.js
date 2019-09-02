@@ -22,7 +22,7 @@ class BurgerBuilder extends Component {
 
 
 	componentDidMount() {
-
+		this.props.fetchIngredients();
 	}
 
 

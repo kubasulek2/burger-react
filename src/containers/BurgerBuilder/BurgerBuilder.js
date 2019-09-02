@@ -7,9 +7,10 @@ import BuildControls from '../../components/Burger/BuildControls/BuildControls';
 import Modal from '../../components/UI/Modal/Modal';
 import OrderSummary from '../../components/Burger/OrderSummary/OrderSummary';
 import Spinner from '../../components/UI/Spinner/Spinner';
+
 import withErrorHandler from '../../hoc/withErrorHandler/withErrorHandler';
 import axios from '../../axios-order';
-import * as actionTypes from '../../store/actions/actionTypes';
+import * as burgerActions from '../../store/actions/actionIndex';
 
 
 
@@ -17,22 +18,11 @@ class BurgerBuilder extends Component {
 
 	state = {
 		purchase: false,
-		loading: false,
-		error: false,
-
-
 	};
 
 
 	componentDidMount() {
-		// axios.get('/ingredients.json')
-		// 	.then(res => {
-		// 		this.setState({ ingredients: res.data });
-		// 	})
-		// 	.catch(error => {
-		// 		this.setState({ error: true });
-		// 		return error;
-		// 	});
+
 	}
 
 
@@ -58,7 +48,7 @@ class BurgerBuilder extends Component {
 	}
 
 	render() {
-		let burger = !this.state.error ? <Spinner /> : <p>Error Occurred...</p>;
+		let burger = !this.props.error ? <Spinner /> : <p>Error Occurred...</p>;
 		let disableInfo = null;
 		let orderSummary = null;
 		if (this.props.ings) {
@@ -98,11 +88,6 @@ class BurgerBuilder extends Component {
 
 		/* eslint-enable no-unused-vars */
 
-
-		if (this.state.loading) {
-			orderSummary = <Spinner />;
-		}
-
 		return (
 			<Aux>
 				<Modal
@@ -120,19 +105,15 @@ class BurgerBuilder extends Component {
 const mapStateToProps = state => {
 	return {
 		ings: state.ingredients,
-		price: state.totalPrice
+		price: state.totalPrice,
+		error: state.error
 	};
 };
 const mapDispatchToProps = dispatch => {
 	return {
-		onIngredientAdded: (ing) => dispatch({
-			type: actionTypes.ADD_INGREDIENT,
-			ingredientName: ing
-		}),
-		onIngredientRemoved: (ing) => dispatch({
-			type: actionTypes.REMOVE_INGREDIENT,
-			ingredientName: ing
-		})
+		onIngredientAdded: (ing) => dispatch(burgerActions.addIngredient(ing)),
+		onIngredientRemoved: (ing) => dispatch(burgerActions.removeIngredient(ing)),
+		fetchIngredients: () => dispatch(burgerActions.initIngredients())
 	};
 };
 

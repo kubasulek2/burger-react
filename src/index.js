@@ -2,16 +2,25 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { BrowserRouter } from 'react-router-dom';
 import { Provider } from 'react-redux';
-import { createStore } from 'redux';
+import { createStore, applyMiddleware, compose } from 'redux';
+import thunk from 'redux-thunk';
 
 import './index.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
-import reducer from './store/reducers/burgerBuilder';
+import burgerReducer from './store/reducers/burgerBuilder';
 
 
-const store = createStore(reducer, window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__());
+/* create compose function, either redux dev-tools compose or if dev-tools not present use compose from redux package */
+const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
+
+/* in that compose function you can call applyMiddleware with thunk package for async code */
+const store = createStore(burgerReducer, composeEnhancers(
+	applyMiddleware(thunk)
+));
+
+/* pass store to your app */
 const app = (
 	<Provider store={store}>
 		<BrowserRouter>

@@ -9,7 +9,6 @@ export const purchaseInit = () => {
 };
 
 export const purchaseStart = () => {
-	console.log('purchaseStart')
 	return {
 		type: actionTypes.PURCHASE_START
 	};

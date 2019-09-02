@@ -2,14 +2,18 @@ import * as actionTypes from '../actions/actionTypes';
 
 const initialState = {
 	orders: [],
-	loading: false
+	loading: false,
+	purchased: false
 };
 /* eslint-disable no-case-declarations */
 const reducer = (state=initialState, action) => {
 
 	switch (action.type) {
 		case actionTypes.PURCHASE_INIT:
-			return state;
+			return {
+				...state,
+				purchased: false
+			};
 
 		case actionTypes.PURCHASE_START:
 			return {
@@ -25,7 +29,8 @@ const reducer = (state=initialState, action) => {
 			return {
 				...state,
 				loading: false,
-				orders: state.orders.concat(newOrder)
+				orders: state.orders.concat(newOrder),
+				purchased: true
 			};
 		
 		case actionTypes.PURCHASE_FAIL:

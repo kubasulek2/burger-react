@@ -23,6 +23,9 @@ const reducer = (state = initialState, action) => {
 		
 		case actionTypes.SET_INGREDIENTS:
 			newState.ingredients = action.ingredients;
+			newState.totalPrice = 4;
+			newState.error = false;
+
 			break;
 
 		case actionTypes.FETCH_INGREDIENTS_FAILED:

@@ -13,7 +13,7 @@ import './App.css';
 class App extends Component {
 
 	render() {
-		console.log(window.localStorage.getItem('token'));
+		
 		return (
 			<div className="App">
 				<Layout>

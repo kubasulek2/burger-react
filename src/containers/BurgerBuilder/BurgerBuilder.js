@@ -21,43 +21,47 @@ class BurgerBuilder extends Component {
 	};
 
 
-	componentDidMount() {
+	componentDidMount () {
 		this.props.fetchIngredients();
 	}
 
 
 	isPurchasable = () => {
-		const sum = Object.values({ ...this.props.ings })
-			.reduce((prev, next) => prev + next, 0);
+		const sum = Object.values( { ...this.props.ings } )
+			.reduce( ( prev, next ) => prev + next, 0 );
 
 		return sum > 0;
 	}
 
 	purchaseHandler = () => {
-		this.setState({ purchase: true });
-	}
-	
-	purchaseCancelHandler = () => {
-		this.setState({ purchase: false });
-	}
-	
-	purchaseContinue = () => {
-		this.props.purchaseInit();
-		this.props.history.push('/checkout');
+		if ( this.props.isAuth ) {
+			this.setState( { purchase: true } );
+		} else {
+			this.props.history.push('/auth');
+		}
 	}
 
-	render() {
+	purchaseCancelHandler = () => {
+		this.setState( { purchase: false } );
+	}
+
+	purchaseContinue = () => {
+		this.props.purchaseInit();
+		this.props.history.push( '/checkout' );
+	}
+
+	render () {
 		let burger = !this.props.error ? <Spinner /> : <p>Error Occurred...</p>;
 		let disableInfo = null;
 		let orderSummary = null;
-		if (this.props.ings) {
+		if ( this.props.ings ) {
 
 			/* eslint-disable no-unused-vars */
 
 			disableInfo = { ...this.props.ings };
-			for (let key in disableInfo) {
-				if (Object.hasOwnProperty.call(disableInfo, key)) {
-					disableInfo[key] = disableInfo[key] <= 0;
+			for ( let key in disableInfo ) {
+				if ( Object.hasOwnProperty.call( disableInfo, key ) ) {
+					disableInfo[ key ] = disableInfo[ key ] <= 0;
 
 				}
 			}
@@ -112,11 +116,11 @@ const mapStateToProps = state => {
 };
 const mapDispatchToProps = dispatch => {
 	return {
-		onIngredientAdded: (ing) => dispatch(actions.addIngredient(ing)),
-		onIngredientRemoved: (ing) => dispatch(actions.removeIngredient(ing)),
-		fetchIngredients: () => dispatch(actions.initIngredients()),
-		purchaseInit: () => dispatch(actions.purchaseInit())
+		onIngredientAdded: ( ing ) => dispatch( actions.addIngredient( ing ) ),
+		onIngredientRemoved: ( ing ) => dispatch( actions.removeIngredient( ing ) ),
+		fetchIngredients: () => dispatch( actions.initIngredients() ),
+		purchaseInit: () => dispatch( actions.purchaseInit() )
 	};
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(withErrorHandler(BurgerBuilder, axios));
+export default connect( mapStateToProps, mapDispatchToProps )( withErrorHandler( BurgerBuilder, axios ) );

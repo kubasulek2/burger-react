@@ -132,7 +132,7 @@ export class Auth extends Component {
 				changed={( event ) => this.inputChangeHandler( event, input.id )}
 			/>
 		) );
-		const redirect = this.props.isAuth ? <Redirect to='/' /> : null;
+		let redirect = this.props.isAuth ? <Redirect to={this.props.url} /> : null;
 
 		return (
 			<div className={styles.Auth} >
@@ -159,7 +159,8 @@ const mapStateToProps = state => {
 	return {
 		loading: state.auth.loading,
 		error: state.auth.error,
-		isAuth: state.auth.token !== null
+		isAuth: state.auth.token !== null,
+		url: state.burger.authRedirectPath
 	};
 };
 

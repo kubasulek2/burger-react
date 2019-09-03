@@ -4,6 +4,7 @@ const initialState = {
 	ingredients: null,
 	totalPrice: 4,
 	error: false,
+	authRedirectPath: '/'
 
 };
 
@@ -25,6 +26,7 @@ const reducer = (state = initialState, action) => {
 			newState.ingredients = action.ingredients;
 			newState.totalPrice = 4;
 			newState.error = false;
+			newState.authRedirectPath = '/';
 
 			break;
 
@@ -35,16 +37,18 @@ const reducer = (state = initialState, action) => {
 		case actionTypes.ADD_INGREDIENT:
 			newState.ingredients = {
 				...newState.ingredients,
-				[action.ingredientName]: newState.ingredients[action.ingredientName] + 1 
+				[action.ingredientName]: newState.ingredients[action.ingredientName] + 1,
 			};
+			newState.authRedirectPath = '/checkout';
 			newState.totalPrice = newState.totalPrice + INGREDIENT_PRICES[action.ingredientName];
 			break;
 
 		case actionTypes.REMOVE_INGREDIENT:
 			newState.ingredients = {
 				...newState.ingredients,
-				[action.ingredientName]: newState.ingredients[action.ingredientName] - 1
+				[action.ingredientName]: newState.ingredients[action.ingredientName] - 1,
 			};
+			newState.authRedirectPath = '/checkout';
 			newState.totalPrice = newState.totalPrice - INGREDIENT_PRICES[action.ingredientName];
 			break;
 

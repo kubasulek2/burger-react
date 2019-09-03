@@ -1,6 +1,6 @@
-import React, {Component} from 'react';
-import {connect} from 'react-redux';
-import {Redirect} from 'react-router-dom';
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { Redirect } from 'react-router-dom';
 
 import Input from '../../components/UI/Input/Input';
 import Button from '../../components/UI/Button/Button';
@@ -8,6 +8,7 @@ import Spinner from '../../components/UI/Spinner/Spinner';
 
 import * as actions from '../../store/actions/actionIndex';
 import styles from './Auth.module.css';
+import { updateObject, checkValidity } from '../../shared/utility';
 
 export class Auth extends Component {
 	state = {
@@ -46,41 +47,24 @@ export class Auth extends Component {
 		isSignUp: true
 	}
 
-	checkValidity = ( value, rules ) => {
-		let isValid = true;
-		if ( rules.required ) {
-			isValid = value.trim() !== '' && isValid;
-		}
-
-		if ( rules.minLength ) {
-			isValid = value.length >= rules.minLength && isValid;
-		}
-
-		if ( rules.isEmail ) {
-			const pattern = /[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/;
-			isValid = pattern.test( value ) && isValid;
-		}
-
-
-		return isValid;
-	}
-
 	inputChangeHandler = ( event, inputIdentifier ) => {
 
-		const updatedControls = {...this.state.controls};
-		const updatedControlsElement = {...updatedControls[inputIdentifier]}; // second level copy
+		const updatedControlsElement = updateObject( this.state.controls[ inputIdentifier ], {
+			value: event.target.value,
+			touched: true,
+			valid: checkValidity( event.target.value, this.state.controls[ inputIdentifier ] )
+		} );
 
-		updatedControlsElement.value = event.target.value;
-		updatedControlsElement.touched = true;
-		updatedControlsElement.valid = this.checkValidity( updatedControlsElement.value, updatedControlsElement.validation );
-		updatedControls[inputIdentifier] = updatedControlsElement;
-
+		const updatedControls = updateObject( this.state.controls, {
+			[ inputIdentifier ]: updatedControlsElement
+		} );
+		
 		let formIsValid = true;
 
 		/* eslint-disable no-unused-vars */
 
 		for ( const input in updatedControls ) {
-			formIsValid = updatedControls[input].valid && formIsValid;
+			formIsValid = updatedControls[ input ].valid && formIsValid;
 		}
 
 
@@ -116,7 +100,7 @@ export class Auth extends Component {
 		for ( const key in this.state.controls ) {
 			formElementsArr.push( {
 				id: key,
-				config: this.state.controls[key]
+				config: this.state.controls[ key ]
 			} );
 
 		}
@@ -146,7 +130,7 @@ export class Auth extends Component {
 						<Button type='Danger' clicked={this.switchAuthHandler} >
 							Switch to {this.state.isSignUp ? 'log in' : 'sign up'}
 						</Button>
-						<p style={{margin: '1rem', color: 'red'}}>{this.props.error}</p>
+						<p style={{ margin: '1rem', color: 'red' }}>{this.props.error}</p>
 					</form>
 					: <Spinner />
 				}

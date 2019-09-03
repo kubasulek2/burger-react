@@ -66,6 +66,7 @@ class BurgerBuilder extends Component {
 				<Aux>
 					<Burger ingredients={this.props.ings} />
 					<BuildControls
+						isAuth={this.props.isAuth}
 						purchasable={this.isPurchasable()}
 						price={this.props.price}
 						isDisabled={disableInfo}
@@ -105,7 +106,8 @@ const mapStateToProps = state => {
 	return {
 		ings: state.burger.ingredients,
 		price: state.burger.totalPrice,
-		error: state.burger.error
+		error: state.burger.error,
+		isAuth: state.auth.token !== null
 	};
 };
 const mapDispatchToProps = dispatch => {

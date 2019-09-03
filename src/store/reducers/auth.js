@@ -3,7 +3,7 @@ import * as actionTypes from '../actions/actionTypes';
 import { updateObject } from '../utility';
 
 const initialState = {
-	token: window.localStorage.getItem( 'token' ) || null,
+	token: null,
 	userId: null,
 	error: null,
 	loading: false,
@@ -40,7 +40,7 @@ const authFail = ( state, action ) => {
 };
 
 const logOut = ( state ) => {
-	console.log(window.localStorage.getItem('token'))
+
 	return updateObject( state, {
 		loggedIn: false,
 		token: null,

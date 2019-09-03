@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Route } from 'react-router-dom';
+import { connect } from 'react-redux';
 
 import Layout from './containers/Layout/Layout';
 import BurgerBuilder from './containers/BurgerBuilder/BurgerBuilder';
@@ -8,12 +9,18 @@ import Orders from './containers/Orders/Orders';
 import Auth from './containers/Auth/Auth.js';
 import LogOut from './containers/Auth/Logout/Logout';
 
+import * as actions from './store/actions/actionIndex';
+
 import './App.css';
 
 class App extends Component {
+	componentDidMount () {
+		this.props.checkLogStatus();
+	}
 
-	render() {
-		
+
+	render () {
+
 		return (
 			<div className="App">
 				<Layout>
@@ -27,4 +34,9 @@ class App extends Component {
 		);
 	}
 }
-export default App;
+const mapDispatchToProps = dispatch => {
+	return {
+		checkLogStatus: () => dispatch( actions.authCheckState() )
+	};
+};
+export default connect( null, mapDispatchToProps )( App );

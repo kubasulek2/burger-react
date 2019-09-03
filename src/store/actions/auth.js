@@ -20,7 +20,6 @@ const checkAuthTimeout = expirationTime => {
 	return dispatch => {
 		setTimeout( () => {
 			dispatch( logOut() );
-			window.localStorage.removeItem( 'token' );
 		}, expirationTime * 1000 );
 	};
 };
@@ -34,7 +33,9 @@ const authStart = () => {
 
 
 export const logOut = () => {
-	window.localStorage.removeItem( 'token' );
+	localStorage.removeItem( 'token' );
+	localStorage.removeItem( 'expDate' );
+	localStorage.removeItem( 'userId' );
 	return {
 		type: actionType.AUTH_LOG_OUT
 	};
@@ -58,15 +59,39 @@ export const auth = ( email, password, isSignUp ) => {
 		dispatch( authStart() );
 		axios.post( url, userData )
 			.then( res => {
+				const expDate = new Date( new Date().getTime() + res.data.expiresIn * 1000 );
+		
+				localStorage.setItem( 'token', res.data.idToken );
+				localStorage.setItem( 'expDate', expDate );
+				localStorage.setItem( 'userId', res.data.localId );
 				dispatch( checkAuthTimeout( res.data.expiresIn ) );
 				dispatch( authSuccess( res.data.idToken, res.data.localId ) );
-				window.localStorage.setItem( 'token', res.data.idToken );
+
 			} )
 			.catch( err => {
 				dispatch( authFail( err.response.data.error.message ) );
-				window.localStorage.removeItem('token');
 			} );
 
 
+	};
+};
+
+export const authCheckState = () => {
+	return dispatch => {
+		const token = localStorage.getItem( 'token' );
+		const userId = localStorage.getItem( 'userId' );
+		if ( !token ) {
+			dispatch( logOut() );
+		} else {
+			const expDate = new Date( localStorage.getItem( 'expDate' ) );
+
+			if ( expDate > new Date() ) {
+				dispatch( authSuccess( token, userId ) );
+				dispatch( checkAuthTimeout( (expDate.getTime() - new Date().getTime()) / 1000 ) );
+			} else {
+				dispatch( logOut() );
+			}
+
+		}
 	};
 };

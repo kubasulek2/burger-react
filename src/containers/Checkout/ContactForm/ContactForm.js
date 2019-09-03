@@ -216,7 +216,8 @@ const mapStateToProps = state => {
 	return {
 		ings: state.burger.ingredients,
 		price: state.burger.totalPrice,
-		loading: state.order.loading
+		loading: state.order.loading,
+		userId: state.auth.userId
 	};
 };
 

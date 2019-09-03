@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Route } from 'react-router-dom';
+import { Route, Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 
 import Layout from './containers/Layout/Layout';
@@ -20,23 +20,30 @@ class App extends Component {
 
 
 	render () {
-
 		return (
 			<div className="App">
 				<Layout>
-					<Route path='/checkout' component={Checkout} />
-					<Route path='/orders' component={Orders} />
+					{this.props.isAuth ? <Route path='/checkout' component={Checkout} /> : null}
+					{this.props.isAuth ? <Route path='/orders' component={Orders} /> : null}
 					<Route path='/auth' component={Auth} />
 					<Route path='/logout' component={LogOut} />
 					<Route path='/' exact component={BurgerBuilder} />
+					<Redirect to='/'/>
 				</Layout>
 			</div>
 		);
 	}
 }
+
+const mapStateToProps = state => {
+	return {
+		isAuth: state.auth.token !== null
+	};
+};
+
 const mapDispatchToProps = dispatch => {
 	return {
 		checkLogStatus: () => dispatch( actions.authCheckState() )
 	};
 };
-export default connect( null, mapDispatchToProps )( App );
+export default connect( mapStateToProps, mapDispatchToProps )( App );

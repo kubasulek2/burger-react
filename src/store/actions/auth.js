@@ -20,6 +20,7 @@ const checkAuthTimeout = expirationTime => {
 	return dispatch => {
 		setTimeout( () => {
 			dispatch( logOut() );
+			window.localStorage.removeItem( 'token' );
 		}, expirationTime * 1000 );
 	};
 };
@@ -58,9 +59,11 @@ export const auth = ( email, password, isSignUp ) => {
 			.then( res => {
 				dispatch( checkAuthTimeout( res.data.expiresIn ) );
 				dispatch( authSuccess( res.data.idToken, res.data.localId ) );
+				window.localStorage.setItem( 'token', res.data.idToken );
 			} )
 			.catch( err => {
 				dispatch( authFail( err.response.data.error.message ) );
+				window.localStorage.removeItem('token');
 			} );
 
 

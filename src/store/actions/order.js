@@ -69,8 +69,10 @@ export const fetchOrderFail = ( error ) => {
 export const fetchOrders = () => {
 	return ( dispatch, getState ) => {
 		dispatch( fetchOrderStart() );
-		console.log(getState());
-		axios.get( '/orders.json' )
+		
+		const token = getState().auth.token || window.localStorage.getItem( 'token' );
+		
+		axios.get( '/orders.json?auth=' + token )
 			.then( res => {
 				let ordersArr = [];
 				/* eslint-disable no-unused-vars */
@@ -84,6 +86,7 @@ export const fetchOrders = () => {
 				dispatch( fetchOrderSuccess( ordersArr ) );
 			} )
 			.catch( err => {
+				window.localStorage.removeItem( 'token' );
 				dispatch( fetchOrderFail( err ) );
 			} );
 	};

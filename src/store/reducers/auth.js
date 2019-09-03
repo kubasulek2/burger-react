@@ -40,6 +40,7 @@ const authFail = ( state, action ) => {
 };
 
 const logOut = ( state ) => {
+	console.log(window.localStorage.getItem('token'))
 	return updateObject( state, {
 		loggedIn: false,
 		token: null,

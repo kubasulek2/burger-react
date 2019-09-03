@@ -34,6 +34,7 @@ const authStart = () => {
 
 
 export const logOut = () => {
+	window.localStorage.removeItem( 'token' );
 	return {
 		type: actionType.AUTH_LOG_OUT
 	};

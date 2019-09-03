@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
+
 import Aux from '../../hoc/Aux/Aux';
 import styles from './Layout.module.css';
 import Toolbar from '../../components/Navigation/Toolbar/Toolbar';
@@ -6,26 +8,30 @@ import SideDrawer from '../../components/Navigation/SideDrawer/SideDrawer';
 
 
 class Layout extends Component {
-	state={
+	state = {
 		showSideDrawer: false
 	}
 	sideDrawerHandler = () => {
-		this.setState(prevState => {
-			return { showSideDrawer: !prevState.showSideDrawer};
-		});
+		this.setState( prevState => {
+			return { showSideDrawer: !prevState.showSideDrawer };
+		} );
 	}
 
 	sideDrawerOpenHandler = () => {
-		
+
 	}
 
-	render() {
-		
+	render () {
+
 		return (
 			<Aux>
-				<Toolbar sideDrawerHandle={this.sideDrawerHandler}/>
-				<SideDrawer 
-					isOpen={this.state.showSideDrawer} 
+				<Toolbar
+					sideDrawerHandle={this.sideDrawerHandler}
+					isAuth={this.props.isAuth} 
+				/>
+				<SideDrawer
+					isAuth={this.props.isAuth}
+					isOpen={this.state.showSideDrawer}
 					close={this.sideDrawerHandler}
 				/>
 				<main className={styles.content}>
@@ -35,5 +41,11 @@ class Layout extends Component {
 		);
 	}
 }
+const mapStateToProps = state => {
+	return {
+		isAuth: state.auth.idToken !== null
+	};
+};
 
-export default Layout;
+
+export default connect( mapStateToProps )( Layout );

@@ -32,15 +32,17 @@ export const purchaseFail = ( error ) => {
 
 
 export const handlePurchase = ( orderData ) => {
-	return dispatch => {
+	return (dispatch, getState) => {
 
 		dispatch( purchaseStart() );
+		const token = getState().auth.token || window.localStorage.getItem( 'token' );
 
-		axios.post( '/orders.json', orderData )
+		axios.post( '/orders.json?auth=' + token, orderData )
 			.then( res => {
 				dispatch( purchaseSuccess( res.data.name, orderData ) );
 			} )
 			.catch( err => {
+				window.localStorage.removeItem( 'token' );
 				dispatch( purchaseFail( err ) );
 			} );
 	};

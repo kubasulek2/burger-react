@@ -10,14 +10,14 @@ const initialState = {
 };
 
 const authStart = ( state ) => {
-	updateObject( state, {
+	return updateObject( state, {
 		error: null,
 		loading: true
 	} );
 };
 
 const authSuccess = ( state, action ) => {
-	updateObject( state, {
+	return updateObject( state, {
 		token: action.idToken,
 		userId: action.action.userId,
 		error: null,
@@ -26,8 +26,15 @@ const authSuccess = ( state, action ) => {
 };
 
 const authFail = ( state, action ) => {
-	updateObject( state, {
-		error: action.error,
+	const error = action.error
+		.toLowerCase()
+		.trim()
+		.replace( /_/g, ' ' );
+
+	const errorMessage = error.charAt( 0 ).toUpperCase() + error.slice( 1 ) + '.';
+
+	return updateObject( state, {
+		error: errorMessage,
 		loading: false
 	} );
 };

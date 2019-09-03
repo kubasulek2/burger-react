@@ -10,6 +10,7 @@ import App from './App';
 import * as serviceWorker from './serviceWorker';
 import burgerReducer from './store/reducers/burgerBuilder';
 import orderReducer from './store/reducers/order';
+import authReducer from './store/reducers/auth';
 
 
 /* create compose function, either redux dev-tools compose or if dev-tools not present use compose from redux package */
@@ -18,7 +19,8 @@ const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 /* combine reducers: now state.burger.ingredients */
 const rootReducer = combineReducers({
 	burger: burgerReducer,
-	order: orderReducer
+	order: orderReducer,
+	auth: authReducer
 });
 
 /* in that compose function you can call applyMiddleware with thunk package for async code */

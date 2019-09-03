@@ -7,28 +7,28 @@ export const authStart = () => {
 	};
 };
 
-export const authSuccess = (authData) => {
+export const authSuccess = ( authData ) => {
 	return {
 		type: actionType.AUTH_SUCCESS,
 		authData: authData
 	};
 };
 
-export const authFail = (err) => {
+export const authFail = ( err ) => {
 	return {
 		type: actionType.AUTH_FAIL,
 		error: err
 	};
 };
 
-export const auth = (email, password, isSignUp) => {
-	
+export const auth = ( email, password, isSignUp ) => {
+
 	let url = 'https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyBxqXiGzFjTAvsOo2GExdv2LTMDn9G_BWM';
 
-	if (!isSignUp) {
+	if ( !isSignUp ) {
 		url = 'https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyBxqXiGzFjTAvsOo2GExdv2LTMDn9G_BWM';
 	}
-	
+
 	const userData = {
 		email: email,
 		password: password,
@@ -36,16 +36,16 @@ export const auth = (email, password, isSignUp) => {
 	};
 
 	return dispatch => {
-		dispatch(authStart());
-		axios.post(url,userData)
+		dispatch( authStart() );
+		axios.post( url, userData )
 			.then( res => {
-				console.log(res);
-				dispatch(authSuccess(res));
-			})
+				console.log( res );
+				dispatch( authSuccess( res ) );
+			} )
 			.catch( err => {
-				console.log(err.response);
-				dispatch(authFail(err.response));
-			});
+				console.log( err.response.data.error.message );
+				dispatch( authFail( err.response.data.error.message ) );
+			} );
 
 
 	};

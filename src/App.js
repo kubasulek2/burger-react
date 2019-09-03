@@ -1,34 +1,46 @@
-import React, { Component } from 'react';
+import React, { Component, Suspense } from 'react';
 import { Route, Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 
 import Layout from './containers/Layout/Layout';
 import BurgerBuilder from './containers/BurgerBuilder/BurgerBuilder';
-import Checkout from './containers/Checkout/Checkout';
-import Orders from './containers/Orders/Orders';
-import Auth from './containers/Auth/Auth.js';
-import LogOut from './containers/Auth/Logout/Logout';
+import Spinner from './components/UI/Spinner/Spinner';
 
 import * as actions from './store/actions/actionIndex';
 
 import './App.css';
+
+const Checkout = React.lazy( () => import( './containers/Checkout/Checkout' ) );
+const Orders = React.lazy( () => import( './containers/Orders/Orders' ) );
+const Auth = React.lazy( () => import( './containers/Auth/Auth.js' ) );
+const LogOut = React.lazy( () => import( './containers/Auth/Logout/Logout' ) );
+
+
+/* eslint-disable  react/display-name*/
+const WaitingComponent = ( Component ) => {
+	return props => (
+		<Suspense fallback={<Spinner />}>
+			<Component {...props} />
+		</Suspense>
+	);
+};
+
 
 class App extends Component {
 	componentDidMount () {
 		this.props.checkLogStatus();
 	}
 
-
 	render () {
 		return (
 			<div className="App">
 				<Layout>
-					{this.props.isAuth ? <Route path='/checkout' component={Checkout} /> : null}
-					{this.props.isAuth ? <Route path='/orders' component={Orders} /> : null}
-					<Route path='/auth' component={Auth} />
-					<Route path='/logout' component={LogOut} />
+					{this.props.isAuth ? <Route path='/checkout' component={WaitingComponent( Checkout )} /> : null}
+					{this.props.isAuth ? <Route path='/orders' component={WaitingComponent( Orders )} /> : null}
+					<Route path='/auth' component={WaitingComponent( Auth )} />
+					<Route path='/logout' component={WaitingComponent( LogOut )} />
 					<Route path='/' exact component={BurgerBuilder} />
-					<Redirect to='/'/>
+					<Redirect to='/' />
 				</Layout>
 			</div>
 		);

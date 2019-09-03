@@ -14,19 +14,20 @@ import authReducer from './store/reducers/auth';
 
 
 /* create compose function, either redux dev-tools compose or if dev-tools not present use compose from redux package */
-const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
+/* process.env.NODE_ENV relates to projects setting */
+const composeEnhancers = ( process.env.NODE_ENV === 'development' && window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ ) || compose;
 
 /* combine reducers: now state.burger.ingredients */
-const rootReducer = combineReducers({
+const rootReducer = combineReducers( {
 	burger: burgerReducer,
 	order: orderReducer,
 	auth: authReducer
-});
+} );
 
 /* in that compose function you can call applyMiddleware with thunk package for async code */
-const store = createStore(rootReducer, composeEnhancers(
-	applyMiddleware(thunk)
-));
+const store = createStore( rootReducer, composeEnhancers(
+	applyMiddleware( thunk )
+) );
 
 /* pass store to your app */
 const app = (
@@ -36,7 +37,7 @@ const app = (
 		</BrowserRouter>
 	</Provider>
 );
-ReactDOM.render(app, document.getElementById('root'));
+ReactDOM.render( app, document.getElementById( 'root' ) );
 
 // If you want your app to work offline and load faster, you can change
 // unregister() to register() below. Note this comes with some pitfalls.

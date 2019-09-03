@@ -3,6 +3,7 @@ import {connect} from 'react-redux';
 
 import Input from '../../components/UI/Input/Input';
 import Button from '../../components/UI/Button/Button';
+import Spinner from '../../components/UI/Spinner/Spinner';
 
 import * as actions from '../../store/actions/actionIndex';
 import styles from './Auth.module.css';
@@ -108,7 +109,7 @@ export class Auth extends Component {
 	}
 
 	render () {
-		
+
 		const formElementsArr = [];
 
 		for ( const key in this.state.controls ) {
@@ -133,16 +134,19 @@ export class Auth extends Component {
 
 		return (
 			<div className={styles.Auth} >
-				<form >
-					{form}
-					<Button type='Success' disabled={!this.state.isFromValid} clicked={this.submitHandler}>
-						{this.state.isSignUp ? 'Sign Up' : 'Login In'}
-					</Button>
-					<Button type='Danger' clicked={this.switchAuthHandler} >
-						Switch to {this.state.isSignUp ? 'log in' : 'sign up'}
-					</Button>
-				</form>
-				<p style={{margin:'1rem', color: 'red'}}>{this.props.error}</p>
+				{!this.props.loading
+					? <form >
+						{form}
+						<Button type='Success' disabled={!this.state.isFromValid} clicked={this.submitHandler}>
+							{this.state.isSignUp ? 'Sign Up' : 'Login In'}
+						</Button>
+						<Button type='Danger' clicked={this.switchAuthHandler} >
+							Switch to {this.state.isSignUp ? 'log in' : 'sign up'}
+						</Button>
+						<p style={{margin: '1rem', color: 'red'}}>{this.props.error}</p>
+					</form>
+					: <Spinner />
+				}
 			</div>
 		);
 	}

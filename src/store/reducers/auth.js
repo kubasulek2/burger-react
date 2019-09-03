@@ -3,7 +3,7 @@ import * as actionTypes from '../actions/actionTypes';
 import { updateObject } from '../utility';
 
 const initialState = {
-	token: null,
+	token: window.localStorage.getItem( 'token' ) || null,
 	userId: null,
 	error: null,
 	loading: false,

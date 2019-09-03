@@ -22,7 +22,7 @@ class Layout extends Component {
 	}
 
 	render () {
-
+		console.log(this.props.isAuth);
 		return (
 			<Aux>
 				<Toolbar
@@ -43,7 +43,7 @@ class Layout extends Component {
 }
 const mapStateToProps = state => {
 	return {
-		isAuth: state.auth.idToken !== null
+		isAuth: state.auth.token !== null
 	};
 };
 

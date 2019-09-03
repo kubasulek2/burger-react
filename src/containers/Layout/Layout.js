@@ -20,7 +20,7 @@ class Layout extends Component {
 	}
 
 	render() {
-		console.log();
+		
 		return (
 			<Aux>
 				<Toolbar sideDrawerHandle={this.sideDrawerHandler}/>

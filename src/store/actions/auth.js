@@ -1,13 +1,7 @@
 import * as actionType from './actionTypes';
 import axios from 'axios';
 
-export const authStart = () => {
-	return {
-		type: actionType.AUTH_START
-	};
-};
-
-export const authSuccess = ( token, id ) => {
+const authSuccess = ( token, id ) => {
 	return {
 		type: actionType.AUTH_SUCCESS,
 		idToken: token,
@@ -15,10 +9,32 @@ export const authSuccess = ( token, id ) => {
 	};
 };
 
-export const authFail = ( err ) => {
+const authFail = ( err ) => {
 	return {
 		type: actionType.AUTH_FAIL,
 		error: err
+	};
+};
+
+const checkAuthTimeout = expirationTime => {
+	return dispatch => {
+		setTimeout( () => {
+			dispatch( logOut() );
+		}, expirationTime * 1000 );
+	};
+};
+
+const authStart = () => {
+	return {
+		type: actionType.AUTH_START
+	};
+};
+
+
+
+export const logOut = () => {
+	return {
+		type: actionType.AUTH_LOG_OUT
 	};
 };
 
@@ -40,6 +56,7 @@ export const auth = ( email, password, isSignUp ) => {
 		dispatch( authStart() );
 		axios.post( url, userData )
 			.then( res => {
+				dispatch( checkAuthTimeout( res.data.expiresIn ) );
 				dispatch( authSuccess( res.data.idToken, res.data.localId ) );
 			} )
 			.catch( err => {

@@ -16,7 +16,6 @@ export class Orders extends Component {
 	}
 
 	render() {
-		console.log(this.props.orders);
 		let orders = this.props.orders
 			.map(order => (
 				<Order key={order.id} details={order} />

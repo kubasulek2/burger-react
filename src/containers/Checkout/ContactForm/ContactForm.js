@@ -217,7 +217,6 @@ const mapStateToProps = state => {
 		ings: state.burger.ingredients,
 		price: state.burger.totalPrice,
 		loading: state.order.loading,
-		userId: state.auth.userId
 	};
 };
 

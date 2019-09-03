@@ -4,9 +4,3 @@
 	margin: 0 auto;
 
 }
-
-@media (min-width:600px){
-	.Summary{
-		width: 500px;
-	}
-}

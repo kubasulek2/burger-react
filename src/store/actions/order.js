@@ -32,17 +32,18 @@ export const purchaseFail = ( error ) => {
 
 
 export const handlePurchase = ( orderData ) => {
-	return (dispatch, getState) => {
+	return ( dispatch, getState ) => {
+
+		const token = getState().auth.token;
+		const userId = getState().auth.userId;
+		const url = '/orders/' + userId + '.json?auth=' + token;
 
 		dispatch( purchaseStart() );
-		const token = getState().auth.token || window.localStorage.getItem( 'token' );
-
-		axios.post( '/orders.json?auth=' + token, orderData )
+		axios.post( url, orderData )
 			.then( res => {
 				dispatch( purchaseSuccess( res.data.name, orderData ) );
 			} )
 			.catch( err => {
-				window.localStorage.removeItem( 'token' );
 				dispatch( purchaseFail( err ) );
 			} );
 	};
@@ -71,10 +72,12 @@ export const fetchOrderFail = ( error ) => {
 export const fetchOrders = () => {
 	return ( dispatch, getState ) => {
 		dispatch( fetchOrderStart() );
-		
-		const token = getState().auth.token || window.localStorage.getItem( 'token' );
-		
-		axios.get( '/orders.json?auth=' + token )
+
+		const token = getState().auth.token;
+		const userId = getState().auth.userId;
+		const url = '/orders/' + userId + '.json?auth=' + token;
+
+		axios.get( url )
 			.then( res => {
 				let ordersArr = [];
 				/* eslint-disable no-unused-vars */
@@ -88,7 +91,7 @@ export const fetchOrders = () => {
 				dispatch( fetchOrderSuccess( ordersArr ) );
 			} )
 			.catch( err => {
-				window.localStorage.removeItem( 'token' );
+
 				dispatch( fetchOrderFail( err ) );
 			} );
 	};

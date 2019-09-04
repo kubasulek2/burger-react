@@ -15,7 +15,7 @@ import * as actions from '../../store/actions/actionIndex';
 
 
 
-class BurgerBuilder extends Component {
+export class BurgerBuilder extends Component {
 
 	state = {
 		purchase: false,

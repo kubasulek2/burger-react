@@ -1,6 +1,7 @@
 {
   "name": "burger-react",
   "version": "0.1.0",
+  "homepage": "http://kubasulek2.pl/burger-app",
   "private": true,
   "dependencies": {
     "axios": "^0.19.0",

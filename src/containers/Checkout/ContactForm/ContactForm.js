@@ -110,16 +110,14 @@ const ContactForm = props => {
 		event.preventDefault();
 		/* eslint-disable no-unused-vars */
 
-
-
-		let formData = {};
+		let formDataStore = {};
 		for (const key in formData) {
-			formData[ key ] = formData[ key ].value;
+			formDataStore[ key ] = formData[ key ].value;
 		}
 		const order = {
 			ingredients: props.ingredients,
 			price: props.price.toFixed(2),
-			formData: formData
+			formData: formDataStore
 		};
 
 		props.purchaseHandle(order);

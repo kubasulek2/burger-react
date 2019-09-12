@@ -9,7 +9,7 @@ import BuildControls from '../../components/Burger/BuildControls/BuildControls';
 configure( { adapter: new Adapter() } );
 
 describe( '<BurgerBuilder/> ', () => {
-	let wrapper;
+	let wrapper = null;
 	beforeEach( () => {
 		wrapper = shallow( <BurgerBuilder fetchIngredients={()=>{}}/> );
 	} );

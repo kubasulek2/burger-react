@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 
 import Order from '../../components/Order/Order';
@@ -7,39 +7,37 @@ import Spinner from '../../components/UI/Spinner/Spinner';
 import withError from '../../hoc/withErrorHandler/withErrorHandler';
 import * as actions from '../../store/actions/actionIndex';
 
-export class Orders extends Component {
-	state = {
-		error: false
-	}
-	componentDidMount() {
-		this.props.fetchOrders();
-	}
+const Orders = props => {
 
-	render() {
-		let orders = this.props.orders
-			.map(order => (
-				<Order key={order.id} details={order} />
-			));
+	// eslint-disable-next-line
+	useEffect(() => props.fetchOrders(), []);
 
-		if (!orders.length) orders = (
-			<h1
-				style={{
-					textAlign: 'center',
-					fontSize: '2.5rem',
-					margin: '2rem'
-				}}
-			>
-				There are no orders available.
-			</h1>
-		);
 
-		return (
-			<div>
-				{this.props.loading ? <Spinner /> : orders}
 
-			</div>
-		);
-	}
+	let orders = props.orders
+		.map(order => (
+			<Order key={ order.id } details={ order } />
+		));
+
+	if (!orders.length) orders = (
+		<h1
+			style={ {
+				textAlign: 'center',
+				fontSize: '2.5rem',
+				margin: '2rem'
+			} }
+		>
+			There are no orders available.
+		</h1>
+	);
+
+	return (
+		<div>
+			{ props.loading ? <Spinner /> : orders }
+
+		</div>
+	);
+
 }
 
 const mapStateToProps = state => {

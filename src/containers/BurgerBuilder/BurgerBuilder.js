@@ -17,11 +17,11 @@ import * as actions from '../../store/actions/actionIndex';
 
 const BurgerBuilder = props => {
 
-
+	const { fetchIngredients } = props;
 	const [ purchase, setPurchase ] = useState(false);
 
 	// eslint-disable-next-line
-	useEffect(() => props.fetchIngredients(), []);
+	useEffect(() => fetchIngredients(), [fetchIngredients]);
 
 
 

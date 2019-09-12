@@ -9,8 +9,8 @@ import * as actions from '../../store/actions/actionIndex';
 
 const Orders = props => {
 
-	// eslint-disable-next-line
-	useEffect(() => props.fetchOrders(), []);
+	const { fetchOrders } = props;
+	useEffect(() => fetchOrders(), [ fetchOrders ]);
 
 
 

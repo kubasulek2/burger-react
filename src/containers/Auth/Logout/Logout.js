@@ -5,12 +5,12 @@ import { Redirect } from 'react-router-dom';
 import * as actions from '../../../store/actions/actionIndex';
 
 const Logout = props => {
-
+	const { logOut } = props;
 	useEffect(() => {
-		props.logOut();	
-		//eslint-disable-next-line
-	},[]);
-	
+		logOut();
+
+	}, [ logOut ]);
+
 
 
 	return (

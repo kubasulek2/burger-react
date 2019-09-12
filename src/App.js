@@ -28,9 +28,8 @@ const WaitingComponent = (Component) => {
 
 
 const App = props => {
-	
-	// eslint-disable-next-line
-	useEffect(() => props.checkLogStatus(), []);
+	const { checkLogStatus } = props;
+	useEffect(() => checkLogStatus(), [ checkLogStatus ]);
 
 
 	return (

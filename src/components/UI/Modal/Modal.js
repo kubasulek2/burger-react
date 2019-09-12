@@ -1,37 +1,35 @@
-import React, { Component } from 'react';
+import React from 'react';
 import styles from './Modal.module.css';
 import Aux from '../../../hoc/Aux/Aux';
 import Backdrop from '../Backdrop/Backdrop';
 import PropTypes from 'prop-types';
 
 
-class modal extends Component {
+const modal = props => {
 
-	shouldComponentUpdate(nextProps) {
-		return this.props.show !== nextProps.show || this.props.children !== nextProps.children;
-	}
+	// shouldComponentUpdate(nextProps) {
+	// 	return this.props.show !== nextProps.show || this.props.children !== nextProps.children;
+	// }
 
-	render() {
-		return (
-			<Aux>
-				<Backdrop 
-					show={this.props.show} 
-					clicked={this.props.modalClosed}
-				/>
-				<div
-					className={styles.Modal}
-					style={{
-						transform: this.props.show ? 'translateY(0)' : 'translateY(-100vh)',
-						opacity: this.props.show ? '1' : '0'
-					}}
-				>
-					
-					{this.props.children}
-				
-				</div>
-			</Aux>
-		);
-	}
+	return (
+		<Aux>
+			<Backdrop
+				show={ props.show }
+				clicked={ props.modalClosed }
+			/>
+			<div
+				className={ styles.Modal }
+				style={ {
+					transform: props.show ? 'translateY(0)' : 'translateY(-100vh)',
+					opacity: props.show ? '1' : '0'
+				} }
+			>
+
+				{ props.children }
+
+			</div>
+		</Aux>
+	);
 }
 
 modal.propTypes = {
@@ -39,4 +37,6 @@ modal.propTypes = {
 	modalClosed: PropTypes.func.isRequired
 };
 
-export default modal;
+export default React.memo(modal, (prevProps, nextProps) => {
+	return prevProps.show === nextProps.show && prevProps.children === nextProps.children;
+});

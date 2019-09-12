@@ -1,4 +1,4 @@
-import React, { Component, Suspense } from 'react';
+import React, { useEffect, Suspense } from 'react';
 import { Route, Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 
@@ -10,42 +10,42 @@ import * as actions from './store/actions/actionIndex';
 
 import './App.css';
 
-const Checkout = React.lazy( () => import( './containers/Checkout/Checkout' ) );
-const Orders = React.lazy( () => import( './containers/Orders/Orders' ) );
-const Auth = React.lazy( () => import( './containers/Auth/Auth.js' ) );
-const LogOut = React.lazy( () => import( './containers/Auth/Logout/Logout' ) );
+const Checkout = React.lazy(() => import('./containers/Checkout/Checkout'));
+const Orders = React.lazy(() => import('./containers/Orders/Orders'));
+const Auth = React.lazy(() => import('./containers/Auth/Auth.js'));
+const LogOut = React.lazy(() => import('./containers/Auth/Logout/Logout'));
 
 
 /* eslint-disable  react/display-name*/
-const WaitingComponent = ( Component ) => {
+
+const WaitingComponent = (Component) => {
 	return props => (
-		<Suspense fallback={<Spinner />}>
-			<Component {...props} />
+		<Suspense fallback={ <Spinner /> }>
+			<Component { ...props } />
 		</Suspense>
 	);
 };
 
 
-class App extends Component {
-	componentDidMount () {
-		this.props.checkLogStatus();
-	}
+const App = props => {
 
-	render () {
-		return (
-			<div className="App">
-				<Layout>
-					{this.props.isAuth ? <Route path='/checkout' component={WaitingComponent( Checkout )} /> : null}
-					{this.props.isAuth ? <Route path='/orders' component={WaitingComponent( Orders )} /> : null}
-					<Route path='/auth' component={WaitingComponent( Auth )} />
-					<Route path='/logout' component={WaitingComponent( LogOut )} />
-					<Route path='/' exact component={BurgerBuilder} />
-					<Redirect to='/' />
-				</Layout>
-			</div>
-		);
-	}
-}
+	useEffect(() => props.checkLogStatus(), [ props ]);
+
+
+	return (
+		<div className="App">
+			<Layout>
+				{ props.isAuth ? <Route path='/checkout' component={ WaitingComponent(Checkout) } /> : null }
+				{ props.isAuth ? <Route path='/orders' component={ WaitingComponent(Orders) } /> : null }
+				<Route path='/auth' component={ WaitingComponent(Auth) } />
+				<Route path='/logout' component={ WaitingComponent(LogOut) } />
+				<Route path='/' exact component={ BurgerBuilder } />
+				<Redirect to='/' />
+			</Layout>
+		</div>
+	);
+
+};
 
 const mapStateToProps = state => {
 	return {
@@ -55,7 +55,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
 	return {
-		checkLogStatus: () => dispatch( actions.authCheckState() )
+		checkLogStatus: () => dispatch(actions.authCheckState())
 	};
 };
-export default connect( mapStateToProps, mapDispatchToProps )( App );
+export default connect(mapStateToProps, mapDispatchToProps)(App);

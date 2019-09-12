@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { useState } from 'react';
 import { connect } from 'react-redux';
 
 import Aux from '../../hoc/Aux/Aux';
@@ -7,38 +7,30 @@ import Toolbar from '../../components/Navigation/Toolbar/Toolbar';
 import SideDrawer from '../../components/Navigation/SideDrawer/SideDrawer';
 
 
-class Layout extends Component {
-	state = {
-		showSideDrawer: false
-	}
-	sideDrawerHandler = () => {
-		this.setState( prevState => {
-			return { showSideDrawer: !prevState.showSideDrawer };
-		} );
-	}
+const Layout = props => {
 
-	sideDrawerOpenHandler = () => {
+	const [ sideDrawer, setSideDrawer ] = useState(false);
+	
+	const sideDrawerHandler = () => {
+		setSideDrawer(prevState => !prevState);
+	};
 
-	}
-
-	render () {
-		return (
-			<Aux>
-				<Toolbar
-					sideDrawerHandle={this.sideDrawerHandler}
-					isAuth={this.props.isAuth} 
-				/>
-				<SideDrawer
-					isAuth={this.props.isAuth}
-					isOpen={this.state.showSideDrawer}
-					close={this.sideDrawerHandler}
-				/>
-				<main className={styles.content}>
-					{this.props.children}
-				</main>
-			</Aux>
-		);
-	}
+	return (
+		<Aux>
+			<Toolbar
+				sideDrawerHandle={ sideDrawerHandler }
+				isAuth={ props.isAuth }
+			/>
+			<SideDrawer
+				isAuth={ props.isAuth }
+				isOpen={ sideDrawer }
+				close={ sideDrawerHandler }
+			/>
+			<main className={ styles.content }>
+				{ props.children }
+			</main>
+			;	</Aux>
+	);
 }
 const mapStateToProps = state => {
 	return {
@@ -47,4 +39,4 @@ const mapStateToProps = state => {
 };
 
 
-export default connect( mapStateToProps )( Layout );
+export default connect(mapStateToProps)(Layout);
